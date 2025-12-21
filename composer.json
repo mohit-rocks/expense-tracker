@@ -1,4 +1,6 @@
 {
+    "name": "mohit-rocks/expense-analyzer",
+    "description": "An expense analyzer project written in Symfony.",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
