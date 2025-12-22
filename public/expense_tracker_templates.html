@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExpenseTracker Pro - Templates</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f4ff',
+                            500: '#667eea',
+                            600: '#5a67d8',
+                            700: '#4c51bf'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        .chart-container { position: relative; height: 350px; }
+        .sidebar-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .page-gradient {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Template Selector -->
+    <div x-data="{ currentTemplate: 'login' }" class="min-h-screen">
+        <!-- Template Navigation -->
+        <nav class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <i class="fas fa-wallet text-primary-500 text-xl mr-2"></i>
+                        <span class="font-bold text-gray-800">Template Viewer</span>
+                    </div>
+                    <div class="flex space-x-2 overflow-x-auto">
+                        <button @click="currentTemplate = 'login'"
+                                :class="currentTemplate === 'login' ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap">
+                            Login
+                        </button>
+                        <button @click="currentTemplate = 'dashboard'"
+                                :class="currentTemplate === 'dashboard' ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap">
+                            Dashboard
+                        </button>
+                        <button @click="currentTemplate = 'add-expense'"
+                                :class="currentTemplate === 'add-expense' ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap">
+                            Add Expense
+                        </button>
+                        <button @click="currentTemplate = 'form-elements'"
+                                :class="currentTemplate === 'form-elements' ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap">
+                            Form Elements
+                        </button>
+                        <button @click="currentTemplate = 'account-overview'"
+                                :class="currentTemplate === 'account-overview' ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap">
+                            Account Overview
+                        </button>
+                        <button @click="currentTemplate = 'expense-list'"
+                                :class="currentTemplate === 'expense-list' ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap">
+                            Expense List
+                        </button>
+                        <button @click="currentTemplate = 'reports'"
+                                :class="currentTemplate === 'reports' ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap">
+                            Reports
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Templates Container -->
+        <div class="transition-all duration-300">
+
+            <!-- 1. LOGIN PAGE -->
+            <div x-show="currentTemplate === 'login'" x-transition class="min-h-screen bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center p-4">
+                <div class="max-w-md w-full">
+                    <!-- Login Card -->
+                    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+                        <!-- Header -->
+                        <div class="bg-gradient-to-r from-primary-500 to-purple-600 p-8 text-center">
+                            <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-wallet text-primary-500 text-3xl"></i>
+                            </div>
+                            <h1 class="text-2xl font-bold text-white">ExpenseTracker Pro</h1>
+                            <p class="text-white/80 text-sm mt-2">Sign in to manage your finances</p>
+                        </div>
+
+                        <!-- Login Form -->
+                        <div class="p-8">
+                            <form class="space-y-6">
+                                <!-- Email -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        <i class="fas fa-envelope mr-2 text-gray-400"></i>Email Address
+                                    </label>
+                                    <input type="email"
+                                           placeholder="you@example.com"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                </div>
+
+                                <!-- Password -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        <i class="fas fa-lock mr-2 text-gray-400"></i>Password
+                                    </label>
+                                    <input type="password"
+                                           placeholder="••••••••"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                </div>
+
+                                <!-- Remember Me & Forgot Password -->
+                                <div class="flex items-center justify-between">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="w-4 h-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500">
+                                        <span class="ml-2 text-sm text-gray-700">Remember me</span>
+                                    </label>
+                                    <a href="#" class="text-sm text-primary-500 hover:text-primary-600 font-medium">
+                                        Forgot password?
+                                    </a>
+                                </div>
+
+                                <!-- Login Button -->
+                                <button type="submit"
+                                        class="w-full bg-primary-500 text-white py-3 rounded-lg font-medium hover:bg-primary-600 transform hover:scale-105 transition-all duration-300 shadow-lg">
+                                    Sign In
+                                </button>
+
+                                <!-- Divider -->
+                                <div class="relative my-6">
+                                    <div class="absolute inset-0 flex items-center">
+                                        <div class="w-full border-t border-gray-300"></div>
+                                    </div>
+                                    <div class="relative flex justify-center text-sm">
+                                        <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                                    </div>
+                                </div>
+
+                                <!-- Social Login -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <button type="button"
+                                            class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <i class="fab fa-google text-red-500 mr-2"></i>
+                                        Google
+                                    </button>
+                                    <button type="button"
+                                            class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                                        <i class="fab fa-facebook text-blue-600 mr-2"></i>
+                                        Facebook
+                                    </button>
+                                </div>
+                            </form>
+
+                            <!-- Sign Up Link -->
+                            <p class="text-center text-sm text-gray-600 mt-6">
+                                Don't have an account?
+                                <a href="#" class="text-primary-500 hover:text-primary-600 font-medium">Sign up</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="mt-8 text-center text-white">
+                        <p class="text-sm opacity-90 mb-4">Trusted by 10,000+ users worldwide</p>
+                        <div class="flex justify-center space-x-6 text-xs">
+                            <div class="flex items-center">
+                                <i class="fas fa-shield-alt mr-2"></i>
+                                Secure
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-mobile-alt mr-2"></i>
+                                Mobile Ready
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-chart-line mr-2"></i>
+                                Analytics
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. DASHBOARD WITH SIDEBAR -->
+            <div x-show="currentTemplate === 'dashboard'" x-transition x-data="{ sidebarOpen: false }">
+                <div class="flex min-h-screen page-gradient">
+                    <!-- Sidebar -->
+                    <aside class="w-72 sidebar-gradient text-white fixed h-full overflow-y-auto shadow-2xl transform lg:translate-x-0 transition-transform duration-300 ease-in-out z-50"
+                           :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'">
+
+                        <!-- Logo -->
+                        <div class="p-6 text-center border-b border-white/20">
+                            <div class="flex items-center justify-center mb-3">
+                                <div class="relative">
+                                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-lg transform rotate-12">
+                                        <svg class="w-8 h-8 text-primary-500 transform -rotate-12" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <h1 class="text-xl font-bold mb-1">ExpenseTracker</h1>
+                            <p class="text-white/70 text-xs">Smart Financial Management</p>
+                        </div>
+
+                        <!-- Navigation -->
+                        <nav class="p-4">
+                            <p class="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3 px-4">Main Menu</p>
+                            <ul class="space-y-1">
+                                <li>
+                                    <a href="#" class="flex items-center px-4 py-3 rounded-lg bg-white/20 backdrop-blur-sm border-l-4 border-white text-white">
+                                        <i class="fas fa-tachometer-alt w-5 mr-3"></i>
+                                        <span class="font-medium">Dashboard</span>
+                                        <span class="ml-auto bg-white/20 text-xs px-2 py-1 rounded-full">5</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center px-4 py-3 rounded-lg text-white/90 hover:bg-white/20 hover:text-white transition-all">
+                                        <i class="fas fa-receipt w-5 mr-3"></i>
+                                        <span class="font-medium">Expenses</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center px-4 py-3 rounded-lg text-white/90 hover:bg-white/20 hover:text-white transition-all">
+                                        <i class="fas fa-arrow-down w-5 mr-3"></i>
+                                        <span class="font-medium">Income</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center px-4 py-3 rounded-lg text-white/90 hover:bg-white/20 hover:text-white transition-all">
+                                        <i class="fas fa-credit-card w-5 mr-3"></i>
+                                        <span class="font-medium">Accounts</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center px-4 py-3 rounded-lg text-white/90 hover:bg-white/20 hover:text-white transition-all">
+                                        <i class="fas fa-tags w-5 mr-3"></i>
+                                        <span class="font-medium">Categories</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <p class="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3 px-4 mt-6">Analytics</p>
+                            <ul class="space-y-1">
+                                <li>
+                                    <a href="#" class="flex items-center px-4 py-3 rounded-lg text-white/90 hover:bg-white/20 hover:text-white transition-all">
+                                        <i class="fas fa-chart-bar w-5 mr-3"></i>
+                                        <span class="font-medium">Reports</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center px-4 py-3 rounded-lg text-white/90 hover:bg-white/20 hover:text-white transition-all">
+                                        <i class="fas fa-chart-pie w-5 mr-3"></i>
+                                        <span class="font-medium">Budgets</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <p class="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3 px-4 mt-6">Settings</p>
+                            <ul class="space-y-1">
+                                <li>
+                                    <a href="#" class="flex items-center px-4 py-3 rounded-lg text-white/90 hover:bg-white/20 hover:text-white transition-all">
+                                        <i class="fas fa-cog w-5 mr-3"></i>
+                                        <span class="font-medium">Preferences</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center px-4 py-3 rounded-lg text-white/90 hover:bg-white/20 hover:text-white transition-all">
+                                        <i class="fas fa-bell w-5 mr-3"></i>
+                                        <span class="font-medium">Notifications</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+
+                        <!-- User Profile -->
+                        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-white/20 bg-black/10">
+                            <div class="flex items-center justify-between" x-data="{ showMenu: false }">
+                                <div class="flex items-center flex-1 min-w-0">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mr-3 flex-shrink-0 font-bold text-white">
+                                        JD
+                                    </div>
+                                    <div class="min-w-0 flex-1">
+                                        <p class="text-sm font-medium truncate">John Doe</p>
+                                        <p class="text-xs text-white/70 truncate">john@example.com</p>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <button @click="showMenu = !showMenu" class="text-white/70 hover:text-white p-1">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <div x-show="showMenu"
+                                         @click.away="showMenu = false"
+                                         x-transition
+                                         class="absolute bottom-full right-0 mb-2 w-48 bg-white rounded-lg shadow-xl py-2 text-gray-800">
+                                        <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100 transition-colors">
+                                            <i class="fas fa-user mr-2 text-gray-400"></i>Profile
+                                        </a>
+                                        <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100 transition-colors">
+                                            <i class="fas fa-cog mr-2 text-gray-400"></i>Settings
+                                        </a>
+                                        <hr class="my-2">
+                                        <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button @click="sidebarOpen = !sidebarOpen"
+                            class="fixed top-4 left-4 z-50 lg:hidden bg-primary-500 text-white p-3 rounded-lg shadow-lg hover:bg-primary-600 transition-colors">
+                        <i class="fas fa-bars"></i>
+                    </button>
+
+                    <!-- Main Content -->
+                    <main class="flex-1 lg:ml-72">
+                        <!-- Top Navigation Bar -->
+                        <div class="bg-white border-b border-gray-200 sticky top-0 z-40">
+                            <div class="flex items-center justify-between px-4 lg:px-8 py-4">
+                                <div class="flex items-center space-x-4">
+                                    <h2 class="text-xl font-bold text-gray-800 hidden md:block">Dashboard Overview</h2>
+                                </div>
+
+                                <!-- Top Right Menu -->
+                                <div class="flex items-center space-x-4">
+                                    <!-- Search -->
+                                    <div class="relative hidden md:block">
+                                        <input type="text"
+                                               placeholder="Search transactions..."
+                                               class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 w-64 text-sm">
+                                        <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                    </div>
+
+                                    <!-- Notifications -->
+                                    <div class="relative" x-data="{ open: false }">
+                                        <button @click="open = !open" class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+                                            <i class="fas fa-bell text-lg"></i>
+                                            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                                        </button>
+                                        <div x-show="open"
+                                             @click.away="open = false"
+                                             x-transition
+                                             class="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-200 py-2">
+                                            <div class="px-4 py-2 border-b border-gray-100">
+                                                <h3 class="font-semibold text-gray-800">Notifications</h3>
+                                            </div>
+                                            <div class="max-h-96 overflow-y-auto">
+                                                <a href="#" class="block px-4 py-3 hover:bg-gray-50 transition-colors">
+                                                    <div class="flex items-start">
+                                                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                                            <i class="fas fa-check text-green-600 text-xs"></i>
+                                                        </div>
+                                                        <div class="flex-1 min-w-0">
+                                                            <p class="text-sm text-gray-800 font-medium">Payment received</p>
+                                                            <p class="text-xs text-gray-500 mt-1">₹45,000 salary deposited</p>
+                                                            <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="block px-4 py-3 hover:bg-gray-50 transition-colors">
+                                                    <div class="flex items-start">
+                                                        <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                                            <i class="fas fa-exclamation text-yellow-600 text-xs"></i>
+                                                        </div>
+                                                        <div class="flex-1 min-w-0">
+                                                            <p class="text-sm text-gray-800 font-medium">Budget alert</p>
+                                                            <p class="text-xs text-gray-500 mt-1">You've spent 80% of your dining budget</p>
+                                                            <p class="text-xs text-gray-400 mt-1">5 hours ago</p>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="px-4 py-2 border-t border-gray-100 text-center">
+                                                <a href="#" class="text-sm text-primary-500 hover:text-primary-600 font-medium">View all notifications</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- User Menu -->
+                                    <div class="relative" x-data="{ open: false }">
+                                        <button @click="open = !open" class="flex items-center space-x-3 p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                                            <div class="text-right hidden sm:block">
+                                                <p class="text-sm font-medium text-gray-800">John Doe</p>
+                                                <p class="text-xs text-gray-500">Premium User</p>
+                                            </div>
+                                            <div class="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center font-bold text-white">
+                                                JD
+                                            </div>
+                                            <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+                                        </button>
+                                        <div x-show="open"
+                                             @click.away="open = false"
+                                             x-transition
+                                             class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2">
+                                            <div class="px-4 py-3 border-b border-gray-100">
+                                                <p class="text-sm font-medium text-gray-800">John Doe</p>
+                                                <p class="text-xs text-gray-500 mt-1">john@example.com</p>
+                                            </div>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                                                <i class="fas fa-user mr-2 text-gray-400 w-4"></i>My Profile
+                                            </a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                                                <i class="fas fa-wallet mr-2 text-gray-400 w-4"></i>My Accounts
+                                            </a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                                                <i class="fas fa-cog mr-2 text-gray-400 w-4"></i>Settings
+                                            </a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                                                <i class="fas fa-question-circle mr-2 text-gray-400 w-4"></i>Help & Support
+                                            </a>
+                                            <hr class="my-2">
+                                            <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                                <i class="fas fa-sign-out-alt mr-2 w-4"></i>Logout
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Page Content -->
+                        <div class="p-4 lg:p-8">
+                            <!-- Action Buttons -->
+                            <div class="flex flex-wrap gap-3 mb-8">
+                                <button class="flex items-center px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all">
+                                    <i class="fas fa-plus mr-2"></i>Add Expense
+                                </button>
+                                <button class="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all">
+                                    <i class="fas fa-arrow-down mr-2"></i>Add Income
+                                </button>
+                                <button class="flex items-center px-4 py-2 border-2 border-primary-500 text-primary-500 rounded-lg hover:bg-primary-50 transition-colors">
+                                    <i class="fas fa-download mr-2"></i>Export
+                                </button>
+                            </div>
+
+                                                    <!-- Summary Cards -->
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                                <div class="bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 to-green-600 rounded-t-xl"></div>
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-gray-600 text-sm font-medium">Total Income</p>
+                                            <p class="text-2xl font-bold text-gray-800 mt-1">₹45,000</p>
+                                            <p class="text-green-600 text-xs mt-2">
+                                                <i class="fas fa-arrow-up mr-1"></i>+12% from last month
+                                            </p>
+                                        </div>
+                                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-arrow-up text-green-600 text-lg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 to-red-600 rounded-t-xl"></div>
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-gray-600 text-sm font-medium">Total Expenses</p>
+                                            <p class="text-2xl font-bold text-gray-800 mt-1">₹32,400</p>
+                                            <p class="text-red-600 text-xs mt-2">
+                                                <i class="fas fa-arrow-down mr-1"></i>-5% from last month
+                                            </p>
+                                        </div>
+                                        <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-arrow-down text-red-600 text-lg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-t-xl"></div>
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-gray-600 text-sm font-medium">Net Balance</p>
+                                            <p class="text-2xl font-bold text-gray-800 mt-1">₹12,600</p>
+                                            <p class="text-blue-600 text-xs mt-2">
+                                                <i class="fas fa-wallet mr-1"></i>Available to spend
+                                            </p>
+                                        </div>
+                                        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-wallet text-blue-600 text-lg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-xl shadow-lg p-6 transform hover:scale-105 transition-all relative overflow-hidden">
+                                    <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 to-orange-600 rounded-t-xl"></div>
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-gray-600 text-sm font-medium">Transactions</p>
+                                            <p class="text-2xl font-bold text-gray-800 mt-1">156</p>
+                                            <p class="text-orange-600 text-xs mt-2">
+                                                <i class="fas fa-exchange-alt mr-1"></i>This month
+                                            </p>
+                                        </div>
+                                        <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-exchange-alt text-orange-600 text-lg"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <!-- Chart -->
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Monthly Overview</h3>
+                            <div class="chart-container">
+                                <canvas id="dashboardChart"></canvas>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+
+            <!-- 3. ADD EXPENSE FORM -->
+            <div x-show="currentTemplate === 'add-expense'" x-transition class="min-h-screen p-4 lg:p-8">
+                <div class="max-w-3xl mx-auto">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <!-- Header -->
+                        <div class="bg-gradient-to-r from-primary-500 to-purple-600 p-6">
+                            <h2 class="text-2xl font-bold text-white flex items-center">
+                                <i class="fas fa-plus-circle mr-3"></i>
+                                Add New Expense
+                            </h2>
+                            <p class="text-white/80 text-sm mt-1">Track your spending efficiently</p>
+                        </div>
+
+                        <!-- Form -->
+                        <form class="p-8 space-y-6">
+                            <!-- Type Selection -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-3">Transaction Type</label>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <label class="relative flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-red-500 transition-all">
+                                        <input type="radio" name="type" value="expense" class="peer sr-only" checked>
+                                        <div class="peer-checked:border-red-500 peer-checked:bg-red-50 absolute inset-0 rounded-lg border-2"></div>
+                                        <div class="relative flex items-center">
+                                            <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">
+                                                <i class="fas fa-arrow-down text-red-600"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium text-gray-900">Expense</p>
+                                                <p class="text-xs text-gray-500">Money out</p>
+                                            </div>
+                                        </div>
+                                    </label>
+                                    <label class="relative flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-green-500 transition-all">
+                                        <input type="radio" name="type" value="income" class="peer sr-only">
+                                        <div class="peer-checked:border-green-500 peer-checked:bg-green-50 absolute inset-0 rounded-lg border-2"></div>
+                                        <div class="relative flex items-center">
+                                            <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                                                <i class="fas fa-arrow-up text-green-600"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium text-gray-900">Income</p>
+                                                <p class="text-xs text-gray-500">Money in</p>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Amount -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    <i class="fas fa-rupee-sign mr-2 text-gray-400"></i>Amount
+                                </label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium">₹</span>
+                                    <input type="number"
+                                           placeholder="0.00"
+                                           step="0.01"
+                                           class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-lg font-semibold">
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    <i class="fas fa-align-left mr-2 text-gray-400"></i>Description
+                                </label>
+                                <input type="text"
+                                       placeholder="e.g., Grocery shopping at Walmart"
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                            </div>
+
+                            <!-- Category & Account -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        <i class="fas fa-tags mr-2 text-gray-400"></i>Category
+                                    </label>
+                                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                        <option>Select Category</option>
+                                        <option>🍔 Food & Dining</option>
+                                        <option>🚗 Transportation</option>
+                                        <option>🛍️ Shopping</option>
+                                        <option>💡 Bills & Utilities</option>
+                                        <option>🎭 Entertainment</option>
+                                        <option>🏥 Healthcare</option>
+                                        <option>📚 Education</option>
+                                        <option>✈️ Travel</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        <i class="fas fa-credit-card mr-2 text-gray-400"></i>Account
+                                    </label>
+                                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                        <option>Select Account</option>
+                                        <option>💳 Main Checking</option>
+                                        <option>💰 Savings Account</option>
+                                        <option>🏦 Credit Card</option>
+                                        <option>💵 Cash</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Date & Time -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        <i class="fas fa-calendar mr-2 text-gray-400"></i>Date
+                                    </label>
+                                    <input type="date"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        <i class="fas fa-clock mr-2 text-gray-400"></i>Time
+                                    </label>
+                                    <input type="time"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                </div>
+                            </div>
+
+                            <!-- Notes -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    <i class="fas fa-sticky-note mr-2 text-gray-400"></i>Additional Notes (Optional)
+                                </label>
+                                <textarea rows="3"
+                                          placeholder="Add any additional details..."
+                                          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all resize-none"></textarea>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="flex gap-4 pt-4">
+                                <button type="button"
+                                        class="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-all">
+                                    <i class="fas fa-times mr-2"></i>Cancel
+                                </button>
+                                <button type="submit"
+                                        class="flex-1 px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all">
+                                    <i class="fas fa-check mr-2"></i>Save Expense
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. FORM ELEMENTS REFERENCE -->
+            <div x-show="currentTemplate === 'form-elements'" x-transition class="min-h-screen p-4 lg:p-8">
+                <div class="max-w-4xl mx-auto">
+                    <div class="bg-white rounded-xl shadow-lg p-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Form Elements Reference</h2>
+                        <p class="text-gray-600 mb-8">Complete collection of form elements with Tailwind styling</p>
+
+                        <div class="space-y-8">
+                            <!-- Text Input -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Text Input</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Standard Input</label>
+                                        <input type="text" placeholder="Enter text..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Input with Icon</label>
+                                        <div class="relative">
+                                            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                            <input type="text" placeholder="Search..." class="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Select Dropdown -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Select Dropdown</h3>
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                    <option>Select an option</option>
+                                    <option>Option 1</option>
+                                    <option>Option 2</option>
+                                    <option>Option 3</option>
+                                </select>
+                            </div>
+
+                            <!-- Textarea -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Textarea</h3>
+                                <textarea rows="4" placeholder="Enter your message..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all resize-none"></textarea>
+                            </div>
+
+                            <!-- Checkbox -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Checkbox</h3>
+                                <div class="space-y-3">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="w-4 h-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500">
+                                        <span class="ml-2 text-gray-700">Option 1</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="w-4 h-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500" checked>
+                                        <span class="ml-2 text-gray-700">Option 2 (Checked)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Radio Buttons -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Radio Buttons</h3>
+                                <div class="space-y-3">
+                                    <label class="flex items-center">
+                                        <input type="radio" name="radio" class="w-4 h-4 text-primary-500 border-gray-300 focus:ring-primary-500" checked>
+                                        <span class="ml-2 text-gray-700">Option A</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="radio" name="radio" class="w-4 h-4 text-primary-500 border-gray-300 focus:ring-primary-500">
+                                        <span class="ml-2 text-gray-700">Option B</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Toggle Switch -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Toggle Switch</h3>
+                                <label class="flex items-center cursor-pointer">
+                                    <div class="relative">
+                                        <input type="checkbox" class="sr-only peer">
+                                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-primary-500 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+                                    </div>
+                                    <span class="ml-3 text-gray-700">Enable notifications</span>
+                                </label>
+                            </div>
+
+                            <!-- File Upload -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">File Upload</h3>
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-500 transition-colors">
+                                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                                    <p class="text-sm text-gray-600 mb-2">Drag & drop files here, or click to select</p>
+                                    <input type="file" class="hidden" id="file-upload">
+                                    <label for="file-upload" class="cursor-pointer inline-block px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 text-sm">
+                                        Choose File
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Date & Time Inputs -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Date & Time</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                                        <input type="date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Time</label>
+                                        <input type="time" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">DateTime</label>
+                                        <input type="datetime-local" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Number & Range -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Number & Range</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Number</label>
+                                        <input type="number" placeholder="0" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Range</label>
+                                        <input type="range" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-primary-500">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Buttons</h3>
+                                <div class="flex flex-wrap gap-3">
+                                    <button class="px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 font-medium shadow-lg transition-all">Primary</button>
+                                    <button class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 font-medium shadow-lg transition-all">Success</button>
+                                    <button class="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 font-medium shadow-lg transition-all">Danger</button>
+                                    <button class="px-6 py-3 border-2 border-primary-500 text-primary-500 rounded-lg hover:bg-primary-50 font-medium transition-all">Outline</button>
+                                    <button class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 font-medium transition-all">Secondary</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. ACCOUNT OVERVIEW -->
+            <div x-show="currentTemplate === 'account-overview'" x-transition class="min-h-screen p-4 lg:p-8 page-gradient">
+                <div class="max-w-6xl mx-auto">
+                    <!-- Account Header -->
+                    <div class="bg-gradient-to-r from-primary-500 to-purple-600 rounded-xl shadow-lg p-8 mb-8 text-white">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div>
+                                <p class="text-white/80 text-sm mb-1">Account Name</p>
+                                <h1 class="text-3xl font-bold">Main Checking Account</h1>
+                                <p class="text-white/90 text-sm mt-2">Account #: ****1234</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-white/80 text-sm mb-1">Current Balance</p>
+                                <p class="text-4xl font-bold">₹45,850</p>
+                                <p class="text-white/90 text-sm mt-2">
+                                    <i class="fas fa-arrow-up mr-1"></i>+8% this month
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Total Income</p>
+                                    <p class="text-2xl font-bold text-green-600 mt-1">+₹52,000</p>
+                                </div>
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-arrow-down text-green-600 text-lg"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Total Expenses</p>
+                                    <p class="text-2xl font-bold text-red-600 mt-1">-₹38,150</p>
+                                </div>
+                                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-arrow-up text-red-600 text-lg"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm">Transactions</p>
+                                    <p class="text-2xl font-bold text-blue-600 mt-1">87</p>
+                                </div>
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-exchange-alt text-blue-600 text-lg"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transactions List -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-800">Recent Transactions</h3>
+                            <button class="px-4 py-2 text-primary-500 border border-primary-500 rounded-lg hover:bg-primary-50 transition-colors text-sm">
+                                View All
+                            </button>
+                        </div>
+
+                        <div class="divide-y divide-gray-100">
+                            <!-- Transaction Item 1 -->
+                            <div class="p-6 hover:bg-gray-50 transition-colors cursor-pointer">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-utensils text-red-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-800">Lunch at Restaurant</h4>
+                                        <p class="text-sm text-gray-500">Food & Dining • Dec 20, 2024 at 2:30 PM</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-lg font-semibold text-red-600">-₹850</p>
+                                        <span class="inline-block px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full mt-1">Expense</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Transaction Item 2 -->
+                            <div class="p-6 hover:bg-gray-50 transition-colors cursor-pointer">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-dollar-sign text-green-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-800">Salary Deposit</h4>
+                                        <p class="text-sm text-gray-500">Income • Dec 19, 2024 at 9:00 AM</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-lg font-semibold text-green-600">+₹45,000</p>
+                                        <span class="inline-block px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full mt-1">Income</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Transaction Item 3 -->
+                            <div class="p-6 hover:bg-gray-50 transition-colors cursor-pointer">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-gas-pump text-blue-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-800">Fuel Station</h4>
+                                        <p class="text-sm text-gray-500">Transportation • Dec 18, 2024 at 8:45 AM</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-lg font-semibold text-red-600">-₹2,000</p>
+                                        <span class="inline-block px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full mt-1">Expense</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Transaction Item 4 -->
+                            <div class="p-6 hover:bg-gray-50 transition-colors cursor-pointer">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-shopping-cart text-purple-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-800">Grocery Shopping</h4>
+                                        <p class="text-sm text-gray-500">Shopping • Dec 17, 2024 at 6:15 PM</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-lg font-semibold text-red-600">-₹3,500</p>
+                                        <span class="inline-block px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full mt-1">Expense</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Transaction Item 5 -->
+                            <div class="p-6 hover:bg-gray-50 transition-colors cursor-pointer">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fas fa-bolt text-yellow-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <h4 class="font-medium text-gray-800">Electricity Bill</h4>
+                                        <p class="text-sm text-gray-500">Bills & Utilities • Dec 15, 2024</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-lg font-semibold text-red-600">-₹2,150</p>
+                                        <span class="inline-block px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full mt-1">Expense</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. EXPENSE LISTING WITH FILTERS -->
+            <div x-show="currentTemplate === 'expense-list'" x-transition class="min-h-screen p-4 lg:p-8 page-gradient">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Header -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-800">All Expenses</h2>
+                                <p class="text-gray-600 text-sm mt-1">Manage and track all your transactions</p>
+                            </div>
+                            <div class="flex gap-3">
+                                <button class="px-4 py-2 border-2 border-primary-500 text-primary-500 rounded-lg hover:bg-primary-50 transition-colors">
+                                    <i class="fas fa-download mr-2"></i>Export
+                                </button>
+                                <button class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 shadow-lg">
+                                    <i class="fas fa-plus mr-2"></i>Add Expense
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Filters -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                <i class="fas fa-filter mr-2"></i>Filters
+                            </h3>
+                            <button class="text-sm text-primary-500 hover:text-primary-600 font-medium">
+                                <i class="fas fa-redo mr-1"></i>Reset
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                            <!-- Date Range -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">From Date</label>
+                                <input type="date" value="2024-01-01" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">To Date</label>
+                                <input type="date" value="2024-12-31" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                            </div>
+
+                            <!-- Account Filter -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Account</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                    <option>All Accounts</option>
+                                    <option>Main Checking</option>
+                                    <option>Savings Account</option>
+                                    <option>Credit Card</option>
+                                    <option>Cash</option>
+                                </select>
+                            </div>
+
+                            <!-- Type Filter -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Transaction Type</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                    <option>All Types</option>
+                                    <option>💰 Income</option>
+                                    <option>💸 Expense</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <!-- Category Filter -->
+                            <div class="lg:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                                    <option>All Categories</option>
+                                    <option>🍔 Food & Dining</option>
+                                    <option>🚗 Transportation</option>
+                                    <option>🛍️ Shopping</option>
+                                    <option>💡 Bills & Utilities</option>
+                                    <option>🎭 Entertainment</option>
+                                    <option>🏥 Healthcare</option>
+                                </select>
+                            </div>
+
+                            <!-- Amount Range -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Min Amount</label>
+                                <input type="number" placeholder="₹0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Max Amount</label>
+                                <input type="number" placeholder="₹10,000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all">
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 mt-4">
+                            <button class="flex-1 px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 font-medium transition-colors">
+                                <i class="fas fa-search mr-2"></i>Apply Filters
+                            </button>
+                            <button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors">
+                                <i class="fas fa-save mr-2"></i>Save Filter
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Summary Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-white rounded-xl shadow p-4">
+                            <p class="text-gray-600 text-sm">Found Expenses</p>
+                            <p class="text-2xl font-bold text-gray-800">156</p>
+                        </div>
+                        <div class="bg-white rounded-xl shadow p-4">
+                            <p class="text-gray-600 text-sm">Total Income</p>
+                            <p class="text-2xl font-bold text-green-600">+₹45,000</p>
+                        </div>
+                        <div class="bg-white rounded-xl shadow p-4">
+                            <p class="text-gray-600 text-sm">Total Expense</p>
+                            <p class="text-2xl font-bold text-red-600">-₹32,400</p>
+                        </div>
+                        <div class="bg-white rounded-xl shadow p-4">
+                            <p class="text-gray-600 text-sm">Net Balance</p>
+                            <p class="text-2xl font-bold text-blue-600">₹12,600</p>
+                        </div>
+                    </div>
+
+                    <!-- Expenses Table -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50 border-b border-gray-200">
+                                    <tr>
+                                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            <input type="checkbox" class="w-4 h-4 text-primary-500 border-gray-300 rounded">
+                                        </th>
+                                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account</th>
+                                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                        <th class="px-6 py-4 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                        <th class="px-6 py-4 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4">
+                                            <input type="checkbox" class="w-4 h-4 text-primary-500 border-gray-300 rounded">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Dec 20, 2024</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-3">
+                                                    <i class="fas fa-utensils text-red-600 text-xs"></i>
+                                                </div>
+                                                <span class="text-sm font-medium text-gray-900">Lunch at Restaurant</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Food & Dining</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Main Checking</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full">Expense</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-semibold text-red-600">-₹850</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+                                            <button class="text-blue-600 hover:text-blue-800 mr-3"><i class="fas fa-edit"></i></button>
+                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4">
+                                            <input type="checkbox" class="w-4 h-4 text-primary-500 border-gray-300 rounded">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Dec 19, 2024</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                                                    <i class="fas fa-dollar-sign text-green-600 text-xs"></i>
+                                                </div>
+                                                <span class="text-sm font-medium text-gray-900">Salary Deposit</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Income</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Main Checking</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">Income</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-semibold text-green-600">+₹45,000</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+                                            <button class="text-blue-600 hover:text-blue-800 mr-3"><i class="fas fa-edit"></i></button>
+                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4">
+                                            <input type="checkbox" class="w-4 h-4 text-primary-500 border-gray-300 rounded">
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Dec 18, 2024</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                                                    <i class="fas fa-gas-pump text-blue-600 text-xs"></i>
+                                                </div>
+                                                <span class="text-sm font-medium text-gray-900">Fuel Station</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Transportation</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Credit Card</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full">Expense</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-semibold text-red-600">-₹2,000</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-center text-sm">
+                                            <button class="text-blue-600 hover:text-blue-800 mr-3"><i class="fas fa-edit"></i></button>
+                                            <button class="text-red-600 hover:text-red-800"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="bg-gray-50 px-6 py-4 flex items-center justify-between border-t border-gray-200">
+                            <div class="text-sm text-gray-700">
+                                Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">156</span> results
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-100 disabled:opacity-50" disabled>
+                                    Previous
+                                </button>
+                                <button class="px-3 py-2 bg-primary-500 text-white rounded-lg text-sm">1</button>
+                                <button class="px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-100">2</button>
+                                <button class="px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-100">3</button>
+                                <button class="px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-100">
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. REPORTS PAGE -->
+            <div x-show="currentTemplate === 'reports'" x-transition class="min-h-screen p-4 lg:p-8 page-gradient">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Header -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800">Financial Reports</h2>
+                        <p class="text-gray-600 text-sm mt-1">Analyze your spending patterns and trends</p>
+                    </div>
+
+                    <!-- Report Filters -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Report Filters</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Report Type</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                    <option>Monthly Overview</option>
+                                    <option>Yearly Summary</option>
+                                    <option>Category Breakdown</option>
+                                    <option>Account Comparison</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Year</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                    <option>2024</option>
+                                    <option>2023</option>
+                                    <option>2022</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Account</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                    <option>All Accounts</option>
+                                    <option>Main Checking</option>
+                                    <option>Savings Account</option>
+                                    <option>Credit Card</option>
+                                </select>
+                            </div>
+                            <div class="flex items-end">
+                                <button class="w-full px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 font-medium">
+                                    <i class="fas fa-chart-bar mr-2"></i>Generate Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Summary Stats -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                        <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white">
+                            <p class="text-white/80 text-sm">Total Income (2024)</p>
+                            <p class="text-3xl font-bold mt-2">₹5,40,000</p>
+                            <p class="text-white/90 text-xs mt-2"><i class="fas fa-arrow-up mr-1"></i>+15% vs last year</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-xl shadow-lg p-6 text-white">
+                            <p class="text-white/80 text-sm">Total Expenses (2024)</p>
+                            <p class="text-3xl font-bold mt-2">₹3,88,800</p>
+                            <p class="text-white/90 text-xs mt-2"><i class="fas fa-arrow-down mr-1"></i>-8% vs last year</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
+                            <p class="text-white/80 text-sm">Net Savings (2024)</p>
+                            <p class="text-3xl font-bold mt-2">₹1,51,200</p>
+                            <p class="text-white/90 text-xs mt-2"><i class="fas fa-check mr-1"></i>28% saving rate</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white">
+                            <p class="text-white/80 text-sm">Avg Monthly Expense</p>
+                            <p class="text-3xl font-bold mt-2">₹32,400</p>
+                            <p class="text-white/90 text-xs mt-2"><i class="fas fa-calculator mr-1"></i>Based on 12 months</p>
+                        </div>
+                    </div>
+
+                    <!-- Charts Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <!-- Monthly Trend Chart -->
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold text-gray-800">Monthly Income vs Expenses</h3>
+                                <button class="text-sm text-primary-500 hover:text-primary-600">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="monthlyTrendChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Category Pie Chart -->
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold text-gray-800">Expense by Category</h3>
+                                <button class="text-sm text-primary-500 hover:text-primary-600">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="categoryPieChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Account Comparison -->
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold text-gray-800">Expenses by Account</h3>
+                                <button class="text-sm text-primary-500 hover:text-primary-600">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="accountBarChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Yearly Comparison -->
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-lg font-semibold text-gray-800">Year-over-Year Comparison</h3>
+                                <button class="text-sm text-primary-500 hover:text-primary-600">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="yearlyComparisonChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Categories Table -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="p-6 border-b border-gray-100">
+                            <h3 class="text-lg font-semibold text-gray-800">Top Spending Categories</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Rank</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Amount</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">% of Total</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Transactions</th>
+                                        <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">Trend</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 text-sm font-bold text-gray-900">1</td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mr-3">
+                                                    <i class="fas fa-utensils text-red-600 text-xs"></i>
+                                                </div>
+                                                <span class="text-sm font-medium">Food & Dining</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-right text-sm font-semibold text-gray-900">₹98,500</td>
+                                        <td class="px-6 py-4 text-right text-sm text-gray-600">25.3%</td>
+                                        <td class="px-6 py-4 text-right text-sm text-gray-600">45</td>
+                                        <td class="px-6 py-4 text-center">
+                                            <span class="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
+                                                <i class="fas fa-arrow-down mr-1"></i>-5%
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 text-sm font-bold text-gray-900">2</td>
+                                        <td class="px-6 py-4">
+                                            <div class="flex items-center">
+                                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                                                    <i class="fas fa-gas-pump text-blue-600 text-xs"></i>
+                                                </div>
+                                                <span class="text-sm font-medium">Transportation</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 text-

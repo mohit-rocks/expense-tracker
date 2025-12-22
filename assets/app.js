@@ -1,4 +1,6 @@
 import './stimulus_bootstrap.js';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 /*
  * Welcome to your app's main JavaScript file!
  *
