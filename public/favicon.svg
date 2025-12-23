@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="walletGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+      <feOffset dx="0" dy="4" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Rounded square background -->
+  <rect width="512" height="512" rx="110" ry="110" fill="url(#bgGradient)"/>
+  
+  <!-- Wallet icon -->
+  <g transform="translate(256, 256)" filter="url(#shadow)">
+    <!-- Main wallet body -->
+    <rect x="-140" y="-80" width="280" height="160" rx="20" ry="20" fill="url(#walletGradient)"/>
+    
+    <!-- Wallet flap/fold -->
+    <path d="M -140 -60 L -140 -80 Q -140 -90 -130 -90 L 130 -90 Q 140 -90 140 -80 L 140 -60 Z" 
+          fill="#f97316" opacity="0.8"/>
+    
+    <!-- Card slot detail -->
+    <rect x="-120" y="-50" width="120" height="8" rx="4" ry="4" fill="#ffffff" opacity="0.3"/>
+    <rect x="-120" y="-35" width="80" height="6" rx="3" ry="3" fill="#ffffff" opacity="0.2"/>
+    
+    <!-- Money/bill sticking out -->
+    <g transform="translate(0, -10)">
+      <rect x="60" y="-95" width="80" height="50" rx="4" ry="4" fill="#22c55e" opacity="0.9"/>
+      <rect x="65" y="-90" width="70" height="4" rx="2" ry="2" fill="#ffffff" opacity="0.4"/>
+      <circle cx="100" cy="-70" r="8" fill="#ffffff" opacity="0.3"/>
+      <rect x="65" y="-60" width="70" height="4" rx="2" ry="2" fill="#ffffff" opacity="0.4"/>
+    </g>
+    
+    <!-- Wallet button/clasp -->
+    <circle cx="120" cy="0" r="25" fill="#ffffff" opacity="0.2"/>
+    <circle cx="120" cy="0" r="15" fill="#ffffff" opacity="0.4"/>
+    
+    <!-- Coin accent -->
+    <circle cx="-100" cy="50" r="20" fill="#fbbf24" opacity="0.6"/>
+    <circle cx="-100" cy="50" r="15" fill="#f59e0b" opacity="0.8"/>
+    <text x="-100" y="56" font-family="Arial, sans-serif" font-size="20" font-weight="bold" 
+          fill="#ffffff" text-anchor="middle">₹</text>
+  </g>
+  
+  <!-- Subtle shine effect -->
+  <circle cx="180" cy="150" r="60" fill="#ffffff" opacity="0.1"/>
+</svg>
